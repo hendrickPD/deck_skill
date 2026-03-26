@@ -179,8 +179,8 @@ The content below uses the **exact placeholder text** from the YC template. When
 ```markdown
 ---
 theme: default
-title: 'Seed deck template, Inc.'
-author: 'Seed deck template, Inc.'
+title: 'Seed deck template, AI'
+author: 'Seed deck template, AI'
 fonts:
   sans: 'Inter'
   serif: 'Playfair Display'
@@ -194,8 +194,8 @@ layout: default
 
 <!-- Slide 1: Title -->
 <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
-<h1 style="font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Seed deck template, Inc.</h1>
-<p class="subtitle" style="font-size:1.5rem;color:#444;font-weight:400;">A template that tells you how to build a seed deck</p>
+<h1 style="font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Seed deck template, AI edition</h1>
+<p class="subtitle" style="font-size:0.85rem;color:#666;font-weight:400;max-width:600px;line-height:1.6;">Type this into Claude Code: &#x201C;Download the edit-deck skill from https://raw.githubusercontent.com/hendrickPD/deck_skill/main/SKILL.md and install it to .claude/skills/edit-deck/SKILL.md&#x201D;</p>
 </div>
 
 ---
@@ -204,13 +204,13 @@ layout: default
 
 <!-- Slide 2: Problem -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Founders build bad seed decks</h2>
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Founders build bad pitch decks</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>This wastes a huge amount of time</li>
-  <li>Bad seed decks mean they don&#x2019;t raise the money they need</li>
-  <li>No money means companies are forced to survive on revenue</li>
+  <li>They spend weeks fiddling with slides instead of building product</li>
+  <li>Most decks ignore the YC format that actually works</li>
+  <li>Designers cost $5k+, templates are generic, and AI chatbots hallucinate layouts</li>
 </ul>
-<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">3</div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">2</div>
 </div>
 
 ---
@@ -219,13 +219,13 @@ layout: default
 
 <!-- Slide 3: Solution -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Our template solves this problem</h2>
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">One command installs the fix</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>It&#x2019;s fast to use</li>
-  <li>Simple to explain</li>
-  <li>Improves lives and cleans teeth</li>
+  <li>A Claude Code skill that scaffolds a YC-format deck in seconds</li>
+  <li>Tell it your story &#x2014; it writes the slides, builds the charts, deploys to Vercel</li>
+  <li>Say /edit-deck and you&#x2019;re live</li>
 </ul>
-<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">4</div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">3</div>
 </div>
 
 ---
@@ -234,7 +234,7 @@ layout: default
 
 <!-- Slide 4: Traction -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">All the companies are using us</h2>
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">Decks shipped through our skill</h2>
 <div style="display:grid;grid-template-columns:2.2fr 1fr;gap:2rem;flex:1;align-items:center;">
   <div>
     <img src="/chart-decks.png" style="width:100%;height:auto;" alt="Decks created per month" />
@@ -244,7 +244,7 @@ layout: default
     <div>-&nbsp;&nbsp;100% retention</div>
   </div>
 </div>
-<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">5</div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">4</div>
 </div>
 
 ---
@@ -253,17 +253,17 @@ layout: default
 
 <!-- Slide 5: More Traction -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">Money raised thanks to our decks</h2>
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">Capital raised using our decks</h2>
 <div style="display:grid;grid-template-columns:2.2fr 1fr;gap:2rem;flex:1;align-items:center;">
   <div>
     <img src="/chart-dollars.png" style="width:100%;height:auto;" alt="Dollars per month" />
   </div>
   <div style="font-size:1rem;color:#000;line-height:2;">
-    <div>-&nbsp;&nbsp;US$s, not C$s</div>
-    <div>-&nbsp;&nbsp;95% better than fundraises without our decks</div>
+    <div>-&nbsp;&nbsp;Real dollars, not tokens</div>
+    <div>-&nbsp;&nbsp;95% close rate vs. 12% industry average</div>
   </div>
 </div>
-<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">6</div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">5</div>
 </div>
 
 ---
@@ -272,14 +272,14 @@ layout: default
 
 <!-- Slide 6: Insight / Why It Works -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Our decks work because of science</h2>
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Why this works: skills are the new plugins</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>Time to create a deck is 90% less</li>
-  <li>Edward Tufte approved</li>
-  <li>We pick better color schemes</li>
-  <li>Have you heard of the power of paper?</li>
+  <li>Claude Code skills encode domain expertise as reusable prompts</li>
+  <li>Our skill carries the entire YC deck playbook &#x2014; structure, copy patterns, deploy pipeline</li>
+  <li>It gets smarter every time we update the SKILL.md on GitHub</li>
+  <li>Zero install friction: one curl, one slash command</li>
 </ul>
-<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">7</div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">6</div>
 </div>
 
 ---
@@ -288,13 +288,14 @@ layout: default
 
 <!-- Slide 7: Business Model -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">We make money on every deck</h2>
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">How to install this skill right now</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>5% of all capital raised + 1% royalty on business revenue</li>
-  <li>That&#x2019;s $6m in revenue last year alone</li>
-  <li>Free to produce new decks, because we don&#x2019;t do any work, it&#x2019;s a google slide template</li>
+  <li>mkdir -p .claude/skills/edit-deck</li>
+  <li>curl the SKILL.md from GitHub into that folder</li>
+  <li>Open Claude Code, type /edit-deck, watch it scaffold your deck</li>
+  <li>Give it your data &#x2014; it writes slides, builds, and deploys</li>
 </ul>
-<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">8</div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">7</div>
 </div>
 
 ---
@@ -303,13 +304,13 @@ layout: default
 
 <!-- Slide 8: Market / Future Growth -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Future growth</h2>
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Every founder needs a deck</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>There are 1000 slide decks made in SF every day</li>
-  <li>That&#x2019;s the first market, but it&#x2019;s slowed because of how hard decks are to build</li>
-  <li>We&#x2019;re going to make decks bigger, better, and easier, which means more decks</li>
+  <li>1,500+ YC companies per batch, 50,000+ startups raising seed rounds per year</li>
+  <li>AI-native founders already live in the terminal &#x2014; Claude Code is their IDE</li>
+  <li>Skills are the app store for AI workflows. Decks are just the beginning.</li>
 </ul>
-<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">9</div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">8</div>
 </div>
 
 ---
@@ -322,7 +323,7 @@ layout: default
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;flex:1;align-items:center;">
   <div style="text-align:center;">
     <img src="/peppa.jpg" style="width:160px;height:200px;object-fit:cover;margin:0 auto 0.75rem;display:block;" />
-    <div style="font-size:1rem;color:#000;line-height:1.5;text-align:center;">CTO with<br/>lots of<br/>experience</div>
+    <div style="font-size:1rem;color:#000;line-height:1.5;text-align:center;">CTO who<br/>ships skills<br/>at 2am</div>
   </div>
   <div style="text-align:center;">
     <img src="/kermit.jpg" style="width:160px;height:200px;object-fit:cover;margin:0 auto 0.75rem;display:block;" />
@@ -330,10 +331,10 @@ layout: default
   </div>
   <div style="text-align:center;">
     <img src="/robot.jpg" style="width:160px;height:200px;object-fit:cover;margin:0 auto 0.75rem;display:block;" />
-    <div style="font-size:1rem;color:#000;line-height:1.5;text-align:center;">VP eng<br/>who<br/>does not<br/>sleep</div>
+    <div style="font-size:1rem;color:#000;line-height:1.5;text-align:center;">VP eng<br/>who literally<br/>never sleeps</div>
   </div>
 </div>
-<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">10</div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">9</div>
 </div>
 
 ---
@@ -344,16 +345,16 @@ layout: default
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
 <h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">What we need</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>$1.5m</li>
-  <li>This is for engineers and marketing</li>
-  <li>With this money, we&#x2019;ll hit all the milestones for our next round within 2 days</li>
-  <li>Thanks</li>
+  <li>$1.5m to build the skill marketplace for AI-native founders</li>
+  <li>Hire 3 engineers, launch 10 vertical skills (decks, contracts, data rooms)</li>
+  <li>Series A ready in 12 months: 10k installs, $2M ARR</li>
+  <li>Try it yourself: /edit-deck</li>
 </ul>
-<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">11</div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">10</div>
 </div>
 ```
 
-After generating, tell the user: "I've scaffolded a 10-slide deck that matches the YC seed deck template by Aaron Harris. The content uses YC's placeholder text. What would you like to replace first?"
+After generating, tell the user: "I've scaffolded a 10-slide deck following the YC template with the AI skill-install motif. Every slide tells the story of installing and using this skill. What would you like to customize first?"
 
 ---
 
