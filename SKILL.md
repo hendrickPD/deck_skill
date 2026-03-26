@@ -145,36 +145,40 @@ If the build succeeds, report success and offer to:
 
 ## Template Deck Content
 
-When generating a new deck, create `slides.md` with this structure. All placeholder text is marked with `[BRACKETS]` so it's obvious what needs replacing.
+When generating a new deck, create `slides.md` that is a **pixel-faithful Slidev reproduction** of the YC seed deck template by Aaron Harris (Google Slides source: `17nFIwCyf2Kz-Ao5HGnmvNZ74L8eSKA2C2Qdaoe-47OM`).
+
+**Visual rules — match the Google Slides exactly:**
+- White background on every slide. No dark/cover slides.
+- Black text (`#000`). No grey secondary text, no accent colors.
+- Titles use a large serif font (Google Fonts "Playfair Display" approximates the original). Centered horizontally, positioned in the upper portion of the slide.
+- Body text uses bullet points (`●` disc style) in a regular sans-serif, left-aligned with generous left margin, vertically centered in the remaining space.
+- Page number in the bottom-right corner of every slide except the title slide (slide 1). Rendered as a small grey number.
+- No eyebrow labels, no cards, no colored backgrounds, no borders, no CSS variable theming. The design is intentionally spartan.
+- Traction slides (4 & 5) use a 2-column layout: a line chart on the left (~70% width) and a short dash-list of key stats on the right (~30% width). The chart is an SVG hockey-stick curve.
+- Team slide uses a 3-column grid of placeholder images with role descriptions centered below each.
+
+The content below uses the **exact placeholder text** from the YC template. When the user provides their real data, replace these placeholders — but the scaffolded deck should ship with this content verbatim so it matches the original.
 
 ```markdown
 ---
 theme: default
-title: '[COMPANY NAME]'
-author: '[COMPANY NAME]'
+title: 'Seed deck template, Inc.'
+author: 'Seed deck template, Inc.'
 fonts:
   sans: 'Inter'
-  serif: 'DM Serif Display'
+  serif: 'Playfair Display'
   mono: 'JetBrains Mono'
   provider: google
 defaults:
   layout: default
 transition: fade
-layout: cover
-class: cover-dark
+layout: default
 ---
 
 <!-- Slide 1: Title -->
-<div style="padding:3rem 3.5rem;height:100%;display:flex;flex-direction:column;justify-content:center;">
-<h1 class="display-heading" style="font-size:4rem;color:var(--heading-color);margin:0 0 0.75rem;">
-  [COMPANY NAME]
-</h1>
-<p style="color:var(--text-secondary);font-size:1.15rem;max-width:480px;line-height:1.5;">
-  [One-line description of what you do]
-</p>
-<div style="margin-top:2rem;font-size:0.8rem;color:var(--text-secondary);">
-  [founder@company.com] · [city]
-</div>
+<div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+<h1 style="font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:700;color:#000;margin:0 0 0.5rem;">Seed deck template, Inc.</h1>
+<p style="font-size:1.3rem;color:#000;font-weight:400;">A template that tells you how to build a seed deck</p>
 </div>
 
 ---
@@ -182,16 +186,14 @@ layout: default
 ---
 
 <!-- Slide 2: Problem -->
-<div style="padding:3rem 3.5rem;height:100%;display:flex;flex-direction:column;justify-content:flex-start;">
-<div class="eyebrow">Problem</div>
-<h2 class="display-heading" style="font-size:2.4rem;color:var(--heading-color);margin:0 0 1rem;">
-  [Problem headline — make the reader feel the pain]
-</h2>
-<ul style="font-size:1rem;color:var(--text-secondary);line-height:2;list-style:disc;padding-left:1.5rem;">
-  <li>[Impact point 1 — quantify if possible]</li>
-  <li>[Impact point 2 — who is affected]</li>
-  <li>[Impact point 3 — what happens without a solution]</li>
+<div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Founders build bad seed decks</h2>
+<ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
+  <li>This wastes a huge amount of time</li>
+  <li>Bad seed decks mean they don&#x2019;t raise the money they need</li>
+  <li>No money means companies are forced to survive on revenue</li>
 </ul>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">3</div>
 </div>
 
 ---
@@ -199,16 +201,14 @@ layout: default
 ---
 
 <!-- Slide 3: Solution -->
-<div style="padding:3rem 3.5rem;height:100%;display:flex;flex-direction:column;justify-content:flex-start;">
-<div class="eyebrow">Solution</div>
-<h2 class="display-heading" style="font-size:2.4rem;color:var(--heading-color);margin:0 0 1rem;">
-  [Solution headline — what you do, plainly]
-</h2>
-<ul style="font-size:1rem;color:var(--text-secondary);line-height:2;list-style:disc;padding-left:1.5rem;">
-  <li>[Concrete benefit 1]</li>
-  <li>[Concrete benefit 2]</li>
-  <li>[Concrete benefit 3]</li>
+<div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Our template solves this problem</h2>
+<ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
+  <li>It&#x2019;s fast to use</li>
+  <li>Simple to explain</li>
+  <li>Improves lives and cleans teeth</li>
 </ul>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">4</div>
 </div>
 
 ---
@@ -216,54 +216,80 @@ layout: default
 ---
 
 <!-- Slide 4: Traction -->
-<div style="padding:3rem 3.5rem;height:100%;display:flex;flex-direction:column;justify-content:flex-start;">
-<div class="eyebrow">Traction</div>
-<h2 class="display-heading" style="font-size:2.4rem;color:var(--heading-color);margin:0 0 1rem;">
-  [Traction headline — lead with your best number]
-</h2>
-<div style="display:grid;grid-template-columns:2fr 1fr;gap:2rem;align-items:center;">
+<div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">All the companies are using us</h2>
+<div style="display:grid;grid-template-columns:2.2fr 1fr;gap:2rem;flex:1;align-items:center;">
   <div>
-    <!-- Replace with actual chart SVG or image -->
-    <div style="background:var(--card-bg);border-radius:8px;height:200px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);">
-      [Growth chart goes here — up and to the right]
-    </div>
+    <div style="font-size:0.85rem;font-weight:600;color:#000;margin-bottom:0.5rem;">Decks created per month</div>
+    <svg viewBox="0 0 500 250" width="100%" style="overflow:visible;">
+      <line x1="40" y1="10" x2="40" y2="220" stroke="#ccc" stroke-width="1"/>
+      <line x1="40" y1="220" x2="490" y2="220" stroke="#ccc" stroke-width="1"/>
+      <text x="5" y="15" font-size="9" fill="#666">1,000</text>
+      <text x="18" y="68" font-size="9" fill="#666">750</text>
+      <text x="18" y="120" font-size="9" fill="#666">500</text>
+      <text x="18" y="173" font-size="9" fill="#666">250</text>
+      <text x="55" y="240" font-size="8" fill="#666" transform="rotate(-45,55,240)">1/1/2017</text>
+      <text x="92" y="240" font-size="8" fill="#666" transform="rotate(-45,92,240)">2/1/2017</text>
+      <text x="129" y="240" font-size="8" fill="#666" transform="rotate(-45,129,240)">3/1/2017</text>
+      <text x="166" y="240" font-size="8" fill="#666" transform="rotate(-45,166,240)">4/1/2017</text>
+      <text x="203" y="240" font-size="8" fill="#666" transform="rotate(-45,203,240)">5/1/2017</text>
+      <text x="240" y="240" font-size="8" fill="#666" transform="rotate(-45,240,240)">6/1/2017</text>
+      <text x="277" y="240" font-size="8" fill="#666" transform="rotate(-45,277,240)">7/1/2017</text>
+      <text x="314" y="240" font-size="8" fill="#666" transform="rotate(-45,314,240)">8/1/2017</text>
+      <text x="351" y="240" font-size="8" fill="#666" transform="rotate(-45,351,240)">9/1/2017</text>
+      <text x="388" y="240" font-size="8" fill="#666" transform="rotate(-45,388,240)">10/1/2017</text>
+      <text x="425" y="240" font-size="8" fill="#666" transform="rotate(-45,425,240)">11/1/2017</text>
+      <text x="462" y="240" font-size="8" fill="#666" transform="rotate(-45,462,240)">12/1/2017</text>
+      <polyline points="55,215 92,213 129,212 166,210 203,208 240,205 277,198 314,185 351,165 388,130 425,75 462,15" fill="none" stroke="#4285F4" stroke-width="2.5"/>
+    </svg>
   </div>
-  <div style="display:flex;flex-direction:column;gap:1rem;">
-    <div>
-      <div class="stat" style="font-size:2.5rem;">[X%]</div>
-      <div class="stat-label">[Growth rate] per month</div>
-    </div>
-    <div>
-      <div class="stat" style="font-size:2.5rem;">[N]</div>
-      <div class="stat-label">[Key metric label]</div>
-    </div>
+  <div style="font-size:1rem;color:#000;line-height:2;">
+    <div>-&nbsp;&nbsp;50% growth per month. Every month.</div>
+    <div>-&nbsp;&nbsp;100% retention</div>
   </div>
 </div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">5</div>
 </div>
 
 ---
 layout: default
 ---
 
-<!-- Slide 5: More Traction (optional — remove if slide 4 covers it) -->
-<div style="padding:3rem 3.5rem;height:100%;display:flex;flex-direction:column;justify-content:flex-start;">
-<div class="eyebrow">Results</div>
-<h2 class="display-heading" style="font-size:2.4rem;color:var(--heading-color);margin:0 0 1rem;">
-  [Second proof point — revenue, engagement, or impact]
-</h2>
-<div style="display:grid;grid-template-columns:2fr 1fr;gap:2rem;align-items:center;">
+<!-- Slide 5: More Traction -->
+<div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">Money raised thanks to our decks</h2>
+<div style="display:grid;grid-template-columns:2.2fr 1fr;gap:2rem;flex:1;align-items:center;">
   <div>
-    <div style="background:var(--card-bg);border-radius:8px;height:200px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);">
-      [Second chart or visual]
-    </div>
+    <div style="font-size:0.85rem;font-weight:600;color:#000;margin-bottom:0.5rem;">Dollars per month</div>
+    <svg viewBox="0 0 500 250" width="100%" style="overflow:visible;">
+      <line x1="60" y1="10" x2="60" y2="220" stroke="#ccc" stroke-width="1"/>
+      <line x1="60" y1="220" x2="490" y2="220" stroke="#ccc" stroke-width="1"/>
+      <text x="0" y="15" font-size="8" fill="#666">$50,000,000</text>
+      <text x="0" y="68" font-size="8" fill="#666">$40,000,000</text>
+      <text x="0" y="120" font-size="8" fill="#666">$30,000,000</text>
+      <text x="0" y="173" font-size="8" fill="#666">$20,000,000</text>
+      <text x="0" y="210" font-size="8" fill="#666">$10,000,000</text>
+      <text x="75" y="240" font-size="8" fill="#666" transform="rotate(-45,75,240)">1/1/2017</text>
+      <text x="110" y="240" font-size="8" fill="#666" transform="rotate(-45,110,240)">2/1/2017</text>
+      <text x="145" y="240" font-size="8" fill="#666" transform="rotate(-45,145,240)">3/1/2017</text>
+      <text x="180" y="240" font-size="8" fill="#666" transform="rotate(-45,180,240)">4/1/2017</text>
+      <text x="215" y="240" font-size="8" fill="#666" transform="rotate(-45,215,240)">5/1/2017</text>
+      <text x="250" y="240" font-size="8" fill="#666" transform="rotate(-45,250,240)">6/1/2017</text>
+      <text x="285" y="240" font-size="8" fill="#666" transform="rotate(-45,285,240)">7/1/2017</text>
+      <text x="320" y="240" font-size="8" fill="#666" transform="rotate(-45,320,240)">8/1/2017</text>
+      <text x="355" y="240" font-size="8" fill="#666" transform="rotate(-45,355,240)">9/1/2017</text>
+      <text x="390" y="240" font-size="8" fill="#666" transform="rotate(-45,390,240)">10/1/2017</text>
+      <text x="425" y="240" font-size="8" fill="#666" transform="rotate(-45,425,240)">11/1/2017</text>
+      <text x="460" y="240" font-size="8" fill="#666" transform="rotate(-45,460,240)">12/1/2017</text>
+      <polyline points="75,218 110,217 145,216 180,215 215,213 250,210 285,205 320,195 355,178 390,148 425,95 460,15" fill="none" stroke="#4285F4" stroke-width="2.5"/>
+    </svg>
   </div>
-  <div style="display:flex;flex-direction:column;gap:1rem;">
-    <div>
-      <div class="stat" style="font-size:2.5rem;">[$$]</div>
-      <div class="stat-label">[Revenue or key result]</div>
-    </div>
+  <div style="font-size:1rem;color:#000;line-height:2;">
+    <div>-&nbsp;&nbsp;US$s, not C$s</div>
+    <div>-&nbsp;&nbsp;95% better than fundraises without our decks</div>
   </div>
 </div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">6</div>
 </div>
 
 ---
@@ -271,17 +297,15 @@ layout: default
 ---
 
 <!-- Slide 6: Insight / Why It Works -->
-<div style="padding:3rem 3.5rem;height:100%;display:flex;flex-direction:column;justify-content:flex-start;">
-<div class="eyebrow">Insight</div>
-<h2 class="display-heading" style="font-size:2.4rem;color:var(--heading-color);margin:0 0 1rem;">
-  [What makes this work — your unique insight]
-</h2>
-<ul style="font-size:1rem;color:var(--text-secondary);line-height:2;list-style:disc;padding-left:1.5rem;">
-  <li>[Key differentiator 1]</li>
-  <li>[Key differentiator 2]</li>
-  <li>[Key differentiator 3]</li>
-  <li>[Why competitors can't easily replicate this]</li>
+<div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Our decks work because of science</h2>
+<ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
+  <li>Time to create a deck is 90% less</li>
+  <li>Edward Tufte approved</li>
+  <li>We pick better color schemes</li>
+  <li>Have you heard of the power of paper?</li>
 </ul>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">7</div>
 </div>
 
 ---
@@ -289,16 +313,14 @@ layout: default
 ---
 
 <!-- Slide 7: Business Model -->
-<div style="padding:3rem 3.5rem;height:100%;display:flex;flex-direction:column;justify-content:flex-start;">
-<div class="eyebrow">Business Model</div>
-<h2 class="display-heading" style="font-size:2.4rem;color:var(--heading-color);margin:0 0 1rem;">
-  [How you make money — headline]
-</h2>
-<ul style="font-size:1rem;color:var(--text-secondary);line-height:2;list-style:disc;padding-left:1.5rem;">
-  <li>[Pricing model / revenue stream]</li>
-  <li>[Key unit economics — LTV, CAC, margins]</li>
-  <li>[Why this scales]</li>
+<div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">We make money on every deck</h2>
+<ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
+  <li>5% of all capital raised + 1% royalty on business revenue</li>
+  <li>That&#x2019;s $6m in revenue last year alone</li>
+  <li>Free to produce new decks, because we don&#x2019;t do any work, it&#x2019;s a google slide template</li>
 </ul>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">8</div>
 </div>
 
 ---
@@ -306,16 +328,14 @@ layout: default
 ---
 
 <!-- Slide 8: Market / Future Growth -->
-<div style="padding:3rem 3.5rem;height:100%;display:flex;flex-direction:column;justify-content:flex-start;">
-<div class="eyebrow">Market</div>
-<h2 class="display-heading" style="font-size:2.4rem;color:var(--heading-color);margin:0 0 1rem;">
-  [Market size headline — how big is this?]
-</h2>
-<ul style="font-size:1rem;color:var(--text-secondary);line-height:2;list-style:disc;padding-left:1.5rem;">
-  <li>[Bottom-up market sizing: # customers x revenue per customer]</li>
-  <li>[Why the market is growing / what's changing]</li>
-  <li>[Your path to capturing it]</li>
+<div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Future growth</h2>
+<ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
+  <li>There are 1000 slide decks made in SF every day</li>
+  <li>That&#x2019;s the first market, but it&#x2019;s slowed because of how hard decks are to build</li>
+  <li>We&#x2019;re going to make decks bigger, better, and easier, which means more decks</li>
 </ul>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">9</div>
 </div>
 
 ---
@@ -323,31 +343,23 @@ layout: default
 ---
 
 <!-- Slide 9: Team -->
-<div style="padding:3rem 3.5rem;height:100%;display:flex;flex-direction:column;justify-content:flex-start;">
-<div class="eyebrow">Team</div>
-<h2 class="display-heading" style="font-size:2.4rem;color:var(--heading-color);margin:0 0 1.5rem;">
-  [Why this team wins]
-</h2>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;">
+<div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;text-align:center;">Team</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;flex:1;align-items:center;">
   <div style="text-align:center;">
-    <div style="width:80px;height:80px;border-radius:50%;background:var(--card-bg);margin:0 auto 0.5rem;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:0.7rem;">[Photo]</div>
-    <div style="font-weight:600;font-size:0.85rem;">[Founder 1 Name]</div>
-    <div style="font-size:0.7rem;color:var(--text-secondary);">[Role]</div>
-    <div style="font-size:0.65rem;color:var(--text-secondary);margin-top:0.2rem;">[Background]</div>
+    <div style="width:160px;height:200px;background:#eee;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;color:#999;font-size:0.8rem;">[Photo]</div>
+    <div style="font-size:1rem;color:#000;line-height:1.5;text-align:center;">CTO with<br/>lots of<br/>experience</div>
   </div>
   <div style="text-align:center;">
-    <div style="width:80px;height:80px;border-radius:50%;background:var(--card-bg);margin:0 auto 0.5rem;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:0.7rem;">[Photo]</div>
-    <div style="font-weight:600;font-size:0.85rem;">[Founder 2 Name]</div>
-    <div style="font-size:0.7rem;color:var(--text-secondary);">[Role]</div>
-    <div style="font-size:0.65rem;color:var(--text-secondary);margin-top:0.2rem;">[Background]</div>
+    <div style="width:160px;height:200px;background:#eee;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;color:#999;font-size:0.8rem;">[Photo]</div>
+    <div style="font-size:1rem;color:#000;line-height:1.5;text-align:center;">CEO who<br/>knows how<br/>to pitch</div>
   </div>
   <div style="text-align:center;">
-    <div style="width:80px;height:80px;border-radius:50%;background:var(--card-bg);margin:0 auto 0.5rem;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:0.7rem;">[Photo]</div>
-    <div style="font-weight:600;font-size:0.85rem;">[Founder 3 Name]</div>
-    <div style="font-size:0.7rem;color:var(--text-secondary);">[Role]</div>
-    <div style="font-size:0.65rem;color:var(--text-secondary);margin-top:0.2rem;">[Background]</div>
+    <div style="width:160px;height:200px;background:#eee;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;color:#999;font-size:0.8rem;">[Photo]</div>
+    <div style="font-size:1rem;color:#000;line-height:1.5;text-align:center;">VP eng<br/>who<br/>does not<br/>sleep</div>
   </div>
 </div>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">10</div>
 </div>
 
 ---
@@ -355,20 +367,19 @@ layout: default
 ---
 
 <!-- Slide 10: The Ask -->
-<div style="padding:3rem 3.5rem;height:100%;display:flex;flex-direction:column;justify-content:flex-start;">
-<div class="eyebrow">The Ask</div>
-<h2 class="display-heading" style="font-size:2.4rem;color:var(--heading-color);margin:0 0 1rem;">
-  [Raising $X to reach Y]
-</h2>
-<ul style="font-size:1rem;color:var(--text-secondary);line-height:2;list-style:disc;padding-left:1.5rem;">
-  <li>[Amount: $X]</li>
-  <li>[Use of funds: engineering, marketing, etc.]</li>
-  <li>[Milestones: what this money gets you — should make you Series A ready]</li>
+<div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
+<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">What we need</h2>
+<ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
+  <li>$1.5m</li>
+  <li>This is for engineers and marketing</li>
+  <li>With this money, we&#x2019;ll hit all the milestones for our next round within 2 days</li>
+  <li>Thanks</li>
 </ul>
+<div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">11</div>
 </div>
 ```
 
-After generating, tell the user: "I've scaffolded a 10-slide deck following the YC template. Every `[BRACKET]` is a placeholder for your data. What would you like to fill in first?"
+After generating, tell the user: "I've scaffolded a 10-slide deck that matches the YC seed deck template by Aaron Harris. The content uses YC's placeholder text. What would you like to replace first?"
 
 ---
 
