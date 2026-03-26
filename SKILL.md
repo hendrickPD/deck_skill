@@ -194,8 +194,8 @@ layout: default
 
 <!-- Slide 1: Title -->
 <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
-<h1 style="font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:700;color:#000;margin:0 0 0.5rem;">Seed deck template, Inc.</h1>
-<p style="font-size:1.3rem;color:#000;font-weight:400;">A template that tells you how to build a seed deck</p>
+<h1 style="font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Seed deck template, Inc.</h1>
+<p class="subtitle" style="font-size:1.5rem;color:#444;font-weight:400;">A template that tells you how to build a seed deck</p>
 </div>
 
 ---
@@ -678,6 +678,57 @@ Every Slidev deck has a custom CSS design system in `style.css`. On first use, *
 3. **Layout patterns** — common grid/flex patterns used across slides
 
 Use these classes and variables consistently. Never hardcode values that exist as variables.
+
+### Default style.css (YC template)
+
+When generating a new deck, create `style.css` with this content:
+
+```css
+/* ── YC Seed Deck – Minimal Design System ── */
+
+:root {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Playfair Display', ui-serif, Georgia, serif;
+}
+
+/* Light mode (default) — plain white */
+.slidev-layout {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+/* Dark mode — inverted */
+html.dark .slidev-layout {
+  background: #1a1a2e !important;
+  color: #e0e0e0 !important;
+}
+
+html.dark .slidev-layout h1,
+html.dark .slidev-layout h2 {
+  color: #f0f0f0 !important;
+}
+
+html.dark .slidev-layout ul li,
+html.dark .slidev-layout div {
+  color: #d0d0d0;
+}
+
+/* Invert chart images in dark mode so they remain legible */
+html.dark .slidev-layout img[src*="chart-"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Page numbers in dark mode */
+html.dark .slidev-layout div[style*="color:#999"] {
+  color: #666 !important;
+}
+```
+
+**Dark mode rules:**
+- Slidev has a built-in dark mode toggle (moon icon in toolbar). The CSS above makes it work out of the box.
+- Chart PNGs are auto-inverted via `filter: invert(1) hue-rotate(180deg)` — this keeps the line colors correct while flipping bg/text.
+- Team photos and other non-chart images are NOT inverted — only `img[src*="chart-"]` is targeted.
+- When users provide custom charts, name them with `chart-` prefix (e.g., `chart-revenue.png`) so the dark mode inversion applies automatically.
 
 ### Common inline patterns
 - Slide padding: `padding:2rem 3.5rem` or `padding:3rem 3.5rem`
