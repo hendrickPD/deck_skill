@@ -57,6 +57,19 @@ Add scripts to `package.json`:
 }
 ```
 
+### Step 1b: Download template assets
+
+The YC template images are stored in the skill's GitHub repo. Download them into `public/`:
+
+```bash
+mkdir -p public
+curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/peppa.jpg -o public/peppa.jpg
+curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/kermit.jpg -o public/kermit.jpg
+curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/robot.jpg -o public/robot.jpg
+```
+
+These are the placeholder team photos from the original YC seed deck template (Peppa Pig = CTO, Kermit = CEO, Cyberman = VP eng). They will be replaced when the user provides real headshots.
+
 ### Step 2: Vercel + GitHub setup
 
 **Check for existing deploy config:**
@@ -347,15 +360,15 @@ layout: default
 <h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;text-align:center;">Team</h2>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;flex:1;align-items:center;">
   <div style="text-align:center;">
-    <div style="width:160px;height:200px;background:#eee;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;color:#999;font-size:0.8rem;">[Photo]</div>
+    <img src="/peppa.jpg" style="width:160px;height:200px;object-fit:cover;margin:0 auto 0.75rem;display:block;" />
     <div style="font-size:1rem;color:#000;line-height:1.5;text-align:center;">CTO with<br/>lots of<br/>experience</div>
   </div>
   <div style="text-align:center;">
-    <div style="width:160px;height:200px;background:#eee;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;color:#999;font-size:0.8rem;">[Photo]</div>
+    <img src="/kermit.jpg" style="width:160px;height:200px;object-fit:cover;margin:0 auto 0.75rem;display:block;" />
     <div style="font-size:1rem;color:#000;line-height:1.5;text-align:center;">CEO who<br/>knows how<br/>to pitch</div>
   </div>
   <div style="text-align:center;">
-    <div style="width:160px;height:200px;background:#eee;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;color:#999;font-size:0.8rem;">[Photo]</div>
+    <img src="/robot.jpg" style="width:160px;height:200px;object-fit:cover;margin:0 auto 0.75rem;display:block;" />
     <div style="font-size:1rem;color:#000;line-height:1.5;text-align:center;">VP eng<br/>who<br/>does not<br/>sleep</div>
   </div>
 </div>
