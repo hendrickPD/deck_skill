@@ -66,9 +66,13 @@ mkdir -p public
 curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/peppa.jpg -o public/peppa.jpg
 curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/kermit.jpg -o public/kermit.jpg
 curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/robot.jpg -o public/robot.jpg
+curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/chart-decks.png -o public/chart-decks.png
+curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/chart-dollars.png -o public/chart-dollars.png
 ```
 
-These are the placeholder team photos from the original YC seed deck template (Peppa Pig = CTO, Kermit = CEO, Cyberman = VP eng). They will be replaced when the user provides real headshots.
+These are assets extracted from the original YC seed deck PPTX:
+- Team photos: Peppa Pig (CTO), Kermit (CEO), Cyberman (VP eng) — replaced when user provides real headshots.
+- Chart PNGs: the two hockey-stick traction charts — replaced when user provides real data.
 
 ### Step 2: Vercel + GitHub setup
 
@@ -233,28 +237,7 @@ layout: default
 <h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">All the companies are using us</h2>
 <div style="display:grid;grid-template-columns:2.2fr 1fr;gap:2rem;flex:1;align-items:center;">
   <div>
-    <div style="font-size:0.85rem;font-weight:600;color:#000;margin-bottom:0.5rem;">Decks created per month</div>
-    <svg viewBox="0 0 500 250" width="100%" style="overflow:visible;">
-      <line x1="40" y1="10" x2="40" y2="220" stroke="#ccc" stroke-width="1"/>
-      <line x1="40" y1="220" x2="490" y2="220" stroke="#ccc" stroke-width="1"/>
-      <text x="5" y="15" font-size="9" fill="#666">1,000</text>
-      <text x="18" y="68" font-size="9" fill="#666">750</text>
-      <text x="18" y="120" font-size="9" fill="#666">500</text>
-      <text x="18" y="173" font-size="9" fill="#666">250</text>
-      <text x="55" y="240" font-size="8" fill="#666" transform="rotate(-45,55,240)">1/1/2017</text>
-      <text x="92" y="240" font-size="8" fill="#666" transform="rotate(-45,92,240)">2/1/2017</text>
-      <text x="129" y="240" font-size="8" fill="#666" transform="rotate(-45,129,240)">3/1/2017</text>
-      <text x="166" y="240" font-size="8" fill="#666" transform="rotate(-45,166,240)">4/1/2017</text>
-      <text x="203" y="240" font-size="8" fill="#666" transform="rotate(-45,203,240)">5/1/2017</text>
-      <text x="240" y="240" font-size="8" fill="#666" transform="rotate(-45,240,240)">6/1/2017</text>
-      <text x="277" y="240" font-size="8" fill="#666" transform="rotate(-45,277,240)">7/1/2017</text>
-      <text x="314" y="240" font-size="8" fill="#666" transform="rotate(-45,314,240)">8/1/2017</text>
-      <text x="351" y="240" font-size="8" fill="#666" transform="rotate(-45,351,240)">9/1/2017</text>
-      <text x="388" y="240" font-size="8" fill="#666" transform="rotate(-45,388,240)">10/1/2017</text>
-      <text x="425" y="240" font-size="8" fill="#666" transform="rotate(-45,425,240)">11/1/2017</text>
-      <text x="462" y="240" font-size="8" fill="#666" transform="rotate(-45,462,240)">12/1/2017</text>
-      <polyline points="55,215 92,213 129,212 166,210 203,208 240,205 277,198 314,185 351,165 388,130 425,75 462,15" fill="none" stroke="#4285F4" stroke-width="2.5"/>
-    </svg>
+    <img src="/chart-decks.png" style="width:100%;height:auto;" alt="Decks created per month" />
   </div>
   <div style="font-size:1rem;color:#000;line-height:2;">
     <div>-&nbsp;&nbsp;50% growth per month. Every month.</div>
@@ -273,29 +256,7 @@ layout: default
 <h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">Money raised thanks to our decks</h2>
 <div style="display:grid;grid-template-columns:2.2fr 1fr;gap:2rem;flex:1;align-items:center;">
   <div>
-    <div style="font-size:0.85rem;font-weight:600;color:#000;margin-bottom:0.5rem;">Dollars per month</div>
-    <svg viewBox="0 0 500 250" width="100%" style="overflow:visible;">
-      <line x1="60" y1="10" x2="60" y2="220" stroke="#ccc" stroke-width="1"/>
-      <line x1="60" y1="220" x2="490" y2="220" stroke="#ccc" stroke-width="1"/>
-      <text x="0" y="15" font-size="8" fill="#666">$50,000,000</text>
-      <text x="0" y="68" font-size="8" fill="#666">$40,000,000</text>
-      <text x="0" y="120" font-size="8" fill="#666">$30,000,000</text>
-      <text x="0" y="173" font-size="8" fill="#666">$20,000,000</text>
-      <text x="0" y="210" font-size="8" fill="#666">$10,000,000</text>
-      <text x="75" y="240" font-size="8" fill="#666" transform="rotate(-45,75,240)">1/1/2017</text>
-      <text x="110" y="240" font-size="8" fill="#666" transform="rotate(-45,110,240)">2/1/2017</text>
-      <text x="145" y="240" font-size="8" fill="#666" transform="rotate(-45,145,240)">3/1/2017</text>
-      <text x="180" y="240" font-size="8" fill="#666" transform="rotate(-45,180,240)">4/1/2017</text>
-      <text x="215" y="240" font-size="8" fill="#666" transform="rotate(-45,215,240)">5/1/2017</text>
-      <text x="250" y="240" font-size="8" fill="#666" transform="rotate(-45,250,240)">6/1/2017</text>
-      <text x="285" y="240" font-size="8" fill="#666" transform="rotate(-45,285,240)">7/1/2017</text>
-      <text x="320" y="240" font-size="8" fill="#666" transform="rotate(-45,320,240)">8/1/2017</text>
-      <text x="355" y="240" font-size="8" fill="#666" transform="rotate(-45,355,240)">9/1/2017</text>
-      <text x="390" y="240" font-size="8" fill="#666" transform="rotate(-45,390,240)">10/1/2017</text>
-      <text x="425" y="240" font-size="8" fill="#666" transform="rotate(-45,425,240)">11/1/2017</text>
-      <text x="460" y="240" font-size="8" fill="#666" transform="rotate(-45,460,240)">12/1/2017</text>
-      <polyline points="75,218 110,217 145,216 180,215 215,213 250,210 285,205 320,195 355,178 390,148 425,95 460,15" fill="none" stroke="#4285F4" stroke-width="2.5"/>
-    </svg>
+    <img src="/chart-dollars.png" style="width:100%;height:auto;" alt="Dollars per month" />
   </div>
   <div style="font-size:1rem;color:#000;line-height:2;">
     <div>-&nbsp;&nbsp;US$s, not C$s</div>
@@ -660,6 +621,29 @@ The traction slide should feature a prominent growth chart. Pattern:
   <div style="border-left:3px solid var(--accent);padding-left:0.55rem;text-align:left;font-size:0.55rem;color:var(--text-secondary);line-height:1.5;font-style:italic;">"Quote text here."</div>
 </div>
 ```
+
+---
+
+## Charts and Graphics — Hard Rules
+
+**NEVER use inline SVG for charts.** SVG `<text>` elements do not scale predictably inside Slidev's viewport. Axis labels, tick marks, and data labels will overlap and become unreadable.
+
+**Always use one of these approaches instead (in order of preference):**
+
+1. **Pre-rendered PNG/JPG images** — Export charts from Google Sheets, Excel, or any charting tool as a static image. Place in `public/` and reference with `<img src="/chart-name.png" style="width:100%;height:auto;" />`. This is the safest and most faithful approach.
+2. **Embedded `<canvas>` via a Vue component** — For interactive/dynamic charts, create a component in `components/` using Chart.js or similar. This handles responsive sizing correctly.
+3. **Mermaid diagrams** — Slidev has built-in Mermaid support for flowcharts and simple diagrams. Use ```` ```mermaid ```` blocks.
+
+**Never:**
+- Write inline `<svg>` with `<text>` elements for charts — they WILL break at Slidev's render scale.
+- Use `font-size` values below 10px in any SVG — they become unreadable.
+- Assume SVG `viewBox` coordinates map cleanly to slide pixels — Slidev's scaling is unpredictable for SVG text.
+
+**When replacing placeholder charts with real data:**
+1. Generate the chart in a proper charting tool (Google Sheets recommended)
+2. Export as PNG at 1200x742 (matches the original YC chart dimensions)
+3. Save to `public/` and use `<img>` tag
+4. Build and visually verify before committing
 
 ---
 
