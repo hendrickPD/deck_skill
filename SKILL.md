@@ -1,6 +1,6 @@
 ---
 name: seed-deck
-version: 0.2.0
+version: 0.3.0
 description: |
   Edit a Slidev seed-round pitch deck following the YC recommended format.
   Use when asked to update slide content, add slides, fix formatting,
@@ -66,13 +66,91 @@ mkdir -p public
 curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/peppa.jpg -o public/peppa.jpg
 curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/kermit.jpg -o public/kermit.jpg
 curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/robot.jpg -o public/robot.jpg
-curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/chart-decks.png -o public/chart-decks.png
-curl -sL https://raw.githubusercontent.com/hendrickPD/deck_skill/main/chart-dollars.png -o public/chart-dollars.png
 ```
 
 These are assets extracted from the original YC seed deck PPTX:
 - Team photos: Peppa Pig (CTO), Kermit (CEO), Cyberman (VP eng) — replaced when user provides real headshots.
-- Chart PNGs: the two hockey-stick traction charts — replaced when user provides real data.
+- Traction charts are generated as animated CSS bar charts (no PNG needed — see template below).
+
+### Step 1c: Create global-top.vue
+
+This file provides dot rail navigation, reveal animation triggering, and slide view analytics. Slidev auto-loads it on every slide.
+
+```vue
+<template>
+  <!-- Dot Rail Navigation -->
+  <nav v-if="!isPrintMode" class="dot-nav">
+    <button
+      v-for="i in total"
+      :key="i"
+      :class="['dot-pip', { active: currentSlideNo === i }]"
+      :title="'Slide ' + i"
+      @click="go(i)"
+    />
+  </nav>
+</template>
+
+<script setup>
+import { watch, nextTick, onMounted, onUnmounted } from 'vue'
+import { useNav } from '@slidev/client'
+
+const { currentSlideNo, total, go, isPrintMode } = useNav()
+
+// ── Reveal Animation Trigger ──
+function triggerReveals(slideNo) {
+  nextTick(() => {
+    document.querySelectorAll('.bar-fill').forEach(bar => {
+      bar.style.height = '0'
+    })
+    document.querySelectorAll('.reveal.is-visible').forEach(el => {
+      el.classList.remove('is-visible')
+    })
+    nextTick(() => {
+      const activeWrapper = document.querySelector('.slidev-page-' + slideNo)
+      if (activeWrapper) {
+        activeWrapper.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'))
+        activeWrapper.querySelectorAll('.bar-chart.is-visible .bar-fill').forEach((bar, i) => {
+          setTimeout(() => { bar.style.height = bar.dataset.h }, i * 100)
+        })
+      }
+    })
+  })
+}
+
+watch(currentSlideNo, (n) => triggerReveals(n))
+onMounted(() => setTimeout(() => triggerReveals(currentSlideNo.value), 300))
+
+// ── Slide View Analytics ──
+const analytics = {}
+let enterTime = Date.now()
+let currentSlide = 1
+
+function recordSlideLeave() {
+  const duration = Date.now() - enterTime
+  if (!analytics[currentSlide]) analytics[currentSlide] = 0
+  analytics[currentSlide] += duration
+}
+
+watch(currentSlideNo, (newSlide) => {
+  recordSlideLeave()
+  currentSlide = newSlide
+  enterTime = Date.now()
+})
+
+function sendAnalytics() {
+  recordSlideLeave()
+  const payload = JSON.stringify({ slides: analytics, total_slides: total.value, timestamp: new Date().toISOString() })
+  try {
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/track', new Blob([payload], { type: 'application/json' }))
+    }
+  } catch (e) {}
+}
+
+onMounted(() => window.addEventListener('beforeunload', sendAnalytics))
+onUnmounted(() => window.removeEventListener('beforeunload', sendAnalytics))
+</script>
+```
 
 ### Step 2: Vercel + GitHub setup
 
@@ -247,11 +325,11 @@ layout: default
 
 <!-- Slide 2: Problem -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Traditional tools slow you down</h2>
+<h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Traditional tools slow you down</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>Figma and Google Slides can&#x2019;t be driven by AI &#x2014; every change is manual</li>
-  <li>Claude can write code, but GUI tools limit what it can iterate on</li>
-  <li>You should be refining your story, not dragging boxes around</li>
+  <li class="reveal reveal-delay-1">Figma and Google Slides can&#x2019;t be driven by AI &#x2014; every change is manual</li>
+  <li class="reveal reveal-delay-2">Claude can write code, but GUI tools limit what it can iterate on</li>
+  <li class="reveal reveal-delay-3">You should be refining your story, not dragging boxes around</li>
 </ul>
 <div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">2</div>
 </div>
@@ -262,12 +340,12 @@ layout: default
 
 <!-- Slide 3: Solution -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">One command installs the fix</h2>
+<h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">One command installs the fix</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>A Claude Code skill that scaffolds a YC-format deck in seconds</li>
-  <li>Tell it your story &#x2014; it writes the slides, builds the charts</li>
-  <li>Export as PDF or deploy straight to Vercel &#x2014; your call</li>
-  <li>Say /seed-deck and you&#x2019;re live</li>
+  <li class="reveal reveal-delay-1">A Claude Code skill that scaffolds a YC-format deck in seconds</li>
+  <li class="reveal reveal-delay-2">Tell it your story &#x2014; it writes the slides, builds the charts</li>
+  <li class="reveal reveal-delay-3">Export as PDF or deploy straight to Vercel &#x2014; your call</li>
+  <li class="reveal reveal-delay-4">Say /seed-deck and you&#x2019;re live</li>
 </ul>
 <div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">3</div>
 </div>
@@ -278,14 +356,19 @@ layout: default
 
 <!-- Slide 4: Traction -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">Decks shipped through our skill</h2>
+<h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">[Traction headline]</h2>
 <div style="display:grid;grid-template-columns:2.2fr 1fr;gap:2rem;flex:1;align-items:center;">
-  <div>
-    <img src="/chart-decks.png" style="width:100%;height:auto;" alt="Decks created per month" />
+  <div class="bar-chart reveal reveal-delay-1">
+    <div class="bar"><div class="bar-value">[v1]</div><div class="bar-fill" style="height:0" data-h="[h1]%"></div><div class="bar-label">[l1]</div></div>
+    <div class="bar"><div class="bar-value">[v2]</div><div class="bar-fill" style="height:0" data-h="[h2]%"></div><div class="bar-label">[l2]</div></div>
+    <div class="bar"><div class="bar-value">[v3]</div><div class="bar-fill" style="height:0" data-h="[h3]%"></div><div class="bar-label">[l3]</div></div>
+    <div class="bar"><div class="bar-value">[v4]</div><div class="bar-fill" style="height:0" data-h="[h4]%"></div><div class="bar-label">[l4]</div></div>
+    <div class="bar"><div class="bar-value">[v5]</div><div class="bar-fill" style="height:0" data-h="[h5]%"></div><div class="bar-label">[l5]</div></div>
+    <div class="bar"><div class="bar-value">[v6]</div><div class="bar-fill" style="height:0" data-h="100%"></div><div class="bar-label">[l6]</div></div>
   </div>
-  <div style="font-size:1rem;color:#000;line-height:2;">
-    <div>-&nbsp;&nbsp;50% growth per month. Every month.</div>
-    <div>-&nbsp;&nbsp;100% retention</div>
+  <div class="reveal reveal-delay-2" style="font-size:1rem;color:#000;line-height:2;">
+    <div>-&nbsp;&nbsp;[Key stat 1]</div>
+    <div>-&nbsp;&nbsp;[Key stat 2]</div>
   </div>
 </div>
 <div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">4</div>
@@ -297,14 +380,19 @@ layout: default
 
 <!-- Slide 5: More Traction -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">Capital raised using our decks</h2>
+<h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1rem;">[Traction headline 2]</h2>
 <div style="display:grid;grid-template-columns:2.2fr 1fr;gap:2rem;flex:1;align-items:center;">
-  <div>
-    <img src="/chart-dollars.png" style="width:100%;height:auto;" alt="Dollars per month" />
+  <div class="bar-chart reveal reveal-delay-1">
+    <div class="bar"><div class="bar-value">[v1]</div><div class="bar-fill" style="height:0" data-h="[h1]%"></div><div class="bar-label">[l1]</div></div>
+    <div class="bar"><div class="bar-value">[v2]</div><div class="bar-fill" style="height:0" data-h="[h2]%"></div><div class="bar-label">[l2]</div></div>
+    <div class="bar"><div class="bar-value">[v3]</div><div class="bar-fill" style="height:0" data-h="[h3]%"></div><div class="bar-label">[l3]</div></div>
+    <div class="bar"><div class="bar-value">[v4]</div><div class="bar-fill" style="height:0" data-h="[h4]%"></div><div class="bar-label">[l4]</div></div>
+    <div class="bar"><div class="bar-value">[v5]</div><div class="bar-fill" style="height:0" data-h="[h5]%"></div><div class="bar-label">[l5]</div></div>
+    <div class="bar"><div class="bar-value">[v6]</div><div class="bar-fill" style="height:0" data-h="100%"></div><div class="bar-label">[l6]</div></div>
   </div>
-  <div style="font-size:1rem;color:#000;line-height:2;">
-    <div>-&nbsp;&nbsp;Real dollars, not tokens</div>
-    <div>-&nbsp;&nbsp;95% close rate vs. 12% industry average</div>
+  <div class="reveal reveal-delay-2" style="font-size:1rem;color:#000;line-height:2;">
+    <div>-&nbsp;&nbsp;[Key stat 1]</div>
+    <div>-&nbsp;&nbsp;[Key stat 2]</div>
   </div>
 </div>
 <div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">5</div>
@@ -316,11 +404,11 @@ layout: default
 
 <!-- Slide 6: Insight / Why It Works -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Skills are the new plugins</h2>
+<h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Skills are the new plugins</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>Skills = domain expertise as reusable prompts</li>
-  <li>One file carries the full YC playbook</li>
-  <li>Updates on GitHub, improves everywhere instantly</li>
+  <li class="reveal reveal-delay-1">Skills = domain expertise as reusable prompts</li>
+  <li class="reveal reveal-delay-2">One file carries the full YC playbook</li>
+  <li class="reveal reveal-delay-3">Updates on GitHub, improves everywhere instantly</li>
 </ul>
 <div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">6</div>
 </div>
@@ -331,12 +419,12 @@ layout: default
 
 <!-- Slide 7: Business Model -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">How to install this skill right now</h2>
+<h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">How to install this skill right now</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>mkdir -p .claude/skills/seed-deck</li>
-  <li>curl the SKILL.md from GitHub into that folder</li>
-  <li>Open Claude Code, type /seed-deck, watch it scaffold your deck</li>
-  <li>Give it your data &#x2014; it writes slides, builds, and deploys</li>
+  <li class="reveal reveal-delay-1">mkdir -p .claude/skills/seed-deck</li>
+  <li class="reveal reveal-delay-2">curl the SKILL.md from GitHub into that folder</li>
+  <li class="reveal reveal-delay-3">Open Claude Code, type /seed-deck, watch it scaffold your deck</li>
+  <li class="reveal reveal-delay-4">Give it your data &#x2014; it writes slides, builds, and deploys</li>
 </ul>
 <div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">7</div>
 </div>
@@ -347,11 +435,11 @@ layout: default
 
 <!-- Slide 8: Market / Future Growth -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Every founder needs a deck</h2>
+<h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">Every founder needs a deck</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>1,500+ YC companies per batch, 50,000+ startups raising seed rounds per year</li>
-  <li>AI-native founders already live in the terminal &#x2014; Claude Code is their IDE</li>
-  <li>Skills are the app store for AI workflows. Decks are just the beginning.</li>
+  <li class="reveal reveal-delay-1">1,500+ YC companies per batch, 50,000+ startups raising seed rounds per year</li>
+  <li class="reveal reveal-delay-2">AI-native founders already live in the terminal &#x2014; Claude Code is their IDE</li>
+  <li class="reveal reveal-delay-3">Skills are the app store for AI workflows. Decks are just the beginning.</li>
 </ul>
 <div style="margin-top:auto;text-align:right;font-size:0.75rem;color:#999;">8</div>
 </div>
@@ -362,17 +450,17 @@ layout: default
 
 <!-- Slide 9: Team -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:currentColor;margin:0 0 1.5rem;text-align:center;">Team</h2>
+<h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:currentColor;margin:0 0 1.5rem;text-align:center;">Team</h2>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;flex:1;align-items:center;">
-  <div style="text-align:center;">
+  <div class="reveal reveal-delay-1" style="text-align:center;">
     <img src="/peppa.jpg" style="width:160px;height:200px;object-fit:cover;margin:0 auto 0.75rem;display:block;" />
     <div style="font-size:1rem;color:currentColor;line-height:1.5;">CTO who<br/>ships skills<br/>at 2am</div>
   </div>
-  <div style="text-align:center;">
+  <div class="reveal reveal-delay-2" style="text-align:center;">
     <img src="/kermit.jpg" style="width:160px;height:200px;object-fit:cover;margin:0 auto 0.75rem;display:block;" />
     <div style="font-size:1rem;color:currentColor;line-height:1.5;">CEO who<br/>knows how<br/>to pitch</div>
   </div>
-  <div style="text-align:center;">
+  <div class="reveal reveal-delay-3" style="text-align:center;">
     <img src="/robot.jpg" style="width:160px;height:200px;object-fit:cover;margin:0 auto 0.75rem;display:block;" />
     <div style="font-size:1rem;color:currentColor;line-height:1.5;">VP eng<br/>who literally<br/>never sleeps</div>
   </div>
@@ -386,12 +474,12 @@ layout: default
 
 <!-- Slide 10: The Ask -->
 <div style="padding:3rem 4rem;height:100%;display:flex;flex-direction:column;">
-<h2 style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">What we need</h2>
+<h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#000;margin:0 0 1.5rem;">What we need</h2>
 <ul style="font-size:1.15rem;color:#000;line-height:2.2;list-style:disc;padding-left:2rem;">
-  <li>$1.5m to build the skill marketplace for AI-native founders</li>
-  <li>Hire 3 engineers, launch 10 vertical skills (decks, contracts, data rooms)</li>
-  <li>Series A ready in 12 months: 10k installs, $2M ARR</li>
-  <li>Try it yourself: /seed-deck</li>
+  <li class="reveal reveal-delay-1">$1.5m to build the skill marketplace for AI-native founders</li>
+  <li class="reveal reveal-delay-2">Hire 3 engineers, launch 10 vertical skills (decks, contracts, data rooms)</li>
+  <li class="reveal reveal-delay-3">Series A ready in 12 months: 10k installs, $2M ARR</li>
+  <li class="reveal reveal-delay-4">Try it yourself: /seed-deck</li>
   <li>Huge thank you to <a href="https://www.ycombinator.com/library/2u-how-to-build-your-seed-round-pitch-deck" target="_blank" style="color:#f60;">YC&#x2019;s How to Build Your Seed Round Pitch Deck</a></li>
   <li>Huge thank you to <a href="https://github.com/garrytan/gstack" target="_blank" style="color:#f60;">Garry Tan</a> and <a href="https://github.com/garrytan/gstack" target="_blank" style="color:#f60;">gstack</a></li>
 </ul>
@@ -466,7 +554,7 @@ When asked to review or restructure a deck:
 |------|---------|
 | `slides.md` | All slide content — single markdown file, slides separated by `---` |
 | `style.css` | Custom CSS — design system classes and CSS variables |
-| `global-top.vue` | Global top component (e.g., dark mode observer) |
+| `global-top.vue` | Persistent global component: dot rail nav, reveal animation trigger, slide view analytics |
 | `global-bottom.vue` | Global bottom component |
 | `components/` | Custom Vue components |
 | `public/` | Static assets — images, logos. Referenced as `/filename.jpg` |
@@ -670,26 +758,37 @@ The traction slide should feature a prominent growth chart. Pattern:
 
 ---
 
-## Charts and Graphics — Hard Rules
+## Charts and Graphics
 
-**NEVER use inline SVG for charts.** SVG `<text>` elements do not scale predictably inside Slidev's viewport. Axis labels, tick marks, and data labels will overlap and become unreadable.
+**Preferred: CSS animated bar charts** — Use the `.bar-chart` / `.bar` / `.bar-fill` / `.bar-value` / `.bar-label` classes from `style.css`. These animate on slide enter via `global-top.vue`. Set each bar's target height with `data-h="XX%"` (the last/tallest bar should be `100%`; scale others proportionally). Start with `style="height:0"`.
 
-**Always use one of these approaches instead (in order of preference):**
+```html
+<div class="bar-chart reveal reveal-delay-1">
+  <div class="bar">
+    <div class="bar-value">42</div>
+    <div class="bar-fill" style="height:0" data-h="30%"></div>
+    <div class="bar-label">Jan</div>
+  </div>
+  <!-- repeat for each period -->
+  <div class="bar">
+    <div class="bar-value">135</div>
+    <div class="bar-fill" style="height:0" data-h="100%"></div>
+    <div class="bar-label">Jun</div>
+  </div>
+</div>
+```
 
-1. **Pre-rendered PNG/JPG images** — Export charts from Google Sheets, Excel, or any charting tool as a static image. Place in `public/` and reference with `<img src="/chart-name.png" style="width:100%;height:auto;" />`. This is the safest and most faithful approach.
-2. **Embedded `<canvas>` via a Vue component** — For interactive/dynamic charts, create a component in `components/` using Chart.js or similar. This handles responsive sizing correctly.
-3. **Mermaid diagrams** — Slidev has built-in Mermaid support for flowcharts and simple diagrams. Use ```` ```mermaid ```` blocks.
+**Alternative: Pre-rendered PNG/JPG images** — For complex charts (line charts, scatter plots), export from Google Sheets/Excel and place in `public/`. Reference with `<img src="/chart-name.png" style="width:100%;height:auto;" />`.
 
 **Never:**
-- Write inline `<svg>` with `<text>` elements for charts — they WILL break at Slidev's render scale.
-- Use `font-size` values below 10px in any SVG — they become unreadable.
-- Assume SVG `viewBox` coordinates map cleanly to slide pixels — Slidev's scaling is unpredictable for SVG text.
+- Write inline `<svg>` with `<text>` elements for charts — SVG text does not scale predictably in Slidev's viewport.
+- Use `font-size` values below 10px in any SVG.
 
-**When replacing placeholder charts with real data:**
-1. Generate the chart in a proper charting tool (Google Sheets recommended)
-2. Export as PNG at 1200x742 (matches the original YC chart dimensions)
-3. Save to `public/` and use `<img>` tag
-4. Build and visually verify before committing
+**When replacing placeholder bar charts with real user data:**
+1. Get the actual data values and time periods from the user
+2. Calculate `data-h` percentages relative to the largest value (largest = 100%)
+3. Update `bar-value` text to match the actual values
+4. Update `bar-label` text to match the time periods
 
 ---
 
@@ -775,6 +874,103 @@ html.dark .slidev-layout p {
 html.dark .slidev-layout div[style*="color:#999"] {
   color: #666 !important;
 }
+
+/* ── Reveal Animations ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── Animated Bar Charts ── */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 220px;
+  padding-bottom: 32px;
+  position: relative;
+  border-bottom: 1px solid #ddd;
+}
+html.dark .bar-chart { border-bottom-color: #444; }
+.bar-chart .bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  position: relative;
+}
+.bar-chart .bar-fill {
+  width: 100%;
+  max-width: 64px;
+  background: #000;
+  border-radius: 3px 3px 0 0;
+  height: 0;
+  transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.dark .bar-chart .bar-fill { background: #f59e0b; }
+.bar-chart .bar:nth-child(1) .bar-fill { transition-delay: 0.05s; }
+.bar-chart .bar:nth-child(2) .bar-fill { transition-delay: 0.1s; }
+.bar-chart .bar:nth-child(3) .bar-fill { transition-delay: 0.15s; }
+.bar-chart .bar:nth-child(4) .bar-fill { transition-delay: 0.2s; }
+.bar-chart .bar:nth-child(5) .bar-fill { transition-delay: 0.25s; }
+.bar-chart .bar:nth-child(6) .bar-fill { transition-delay: 0.3s; }
+.bar-chart .bar-value {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  color: #000;
+  margin-bottom: 6px;
+  white-space: nowrap;
+}
+html.dark .bar-chart .bar-value { color: #e0e0e0; }
+.bar-chart .bar-label {
+  position: absolute;
+  bottom: -26px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  color: #999;
+  white-space: nowrap;
+}
+
+/* ── Dot Rail Navigation ── */
+.dot-nav {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.dot-pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid #ccc;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+.dot-pip:hover { border-color: #666; transform: scale(1.4); }
+.dot-pip.active { background: #000; border-color: #000; transform: scale(1.3); }
+html.dark .dot-pip { border-color: #555; }
+html.dark .dot-pip:hover { border-color: #aaa; }
+html.dark .dot-pip.active { background: #f59e0b; border-color: #f59e0b; }
+@media (max-width: 768px) { .dot-nav { display: none; } }
 ```
 
 **Dark mode rules:**
@@ -803,7 +999,7 @@ Fix any build errors before proceeding (unclosed tags, missing images, bad YAML,
 
 ### Step 2: Commit
 ```bash
-git add slides.md style.css  # only changed files
+git add slides.md style.css global-top.vue  # only changed files
 git commit -m "descriptive message"
 ```
 
